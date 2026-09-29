@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đức Phong & Quỳnh Anh</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+
+<style>
+:root {
+  --bg: #191513;
+  --bg-alt: #231E18;
+  --gold: #D4BC8A;
+  --gold-light: #E8D4A0;
+  --gold-subtle: rgba(212,188,138,0.1);
+  --rose: #D4A5A0;
+  --rose-light: rgba(212,165,160,0.12);
+  --text: #EDE5D8;
+  --text-muted: #A09080;
+  --divider: #3A3228;
+  --card: rgba(35,30,24,0.7);
+  --cover-bg: #0A0806;
+  --cover-text: #EDE5D8;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  background-image: url("paper-texture.png");
+  background-size: 256px 256px;
+  background-blend-mode: overlay;
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ───── Cover ───── */
+#cover {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: var(--bg);
+  background-image: url("paper-texture.png");
+  background-size: 256px 256px;
+  background-blend-mode: overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: max(20px, env(safe-area-inset-top, 20px));
+  transition: opacity 1s ease 1.2s, transform 1.2s cubic-bezier(.4,0,.2,1) 1.2s;
+}
+#cover.opened {
+  opacity: 0;
+  transform: scale(3);
+  pointer-events: none;
+}
+
+.envelope {
+  --depth: 8px;
+  position: relative;
+  width: min(360px, 84vw);
+  aspect-ratio: 5/7;
+  perspective: 1200px;
+  animation: envelope-aura 3s ease-in-out infinite;
+}
+@keyframes envelope-aura {
+  0%, 100% { box-shadow: 0 0 25px rgba(184,148,86,.08), 0 0 60px rgba(184,148,86,.04); }
+  50% { box-shadow: 0 0 40px rgba(184,148,86,.18), 0 0 80px rgba(184,148,86,.08); }
+}
+.env-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(-5deg) rotateY(-3deg);
+}
+.env-face {
+  position: absolute;
+  backface-visibility: hidden;
+}
+.env-front {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(184,148,86,.25);
+  background: #2A1E16;
+  transform: translateZ(calc(var(--depth) / 2));
+}
+.env-back {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(184,148,86,.15);
+  background: #241A12;
+  transform: rotateY(180deg) translateZ(calc(var(--depth) / 2));
+}
+.env-right {
+  width: var(--depth);
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: linear-gradient(to right, #2E2018, #281C12);
+  border-block: 1px solid rgba(184,148,86,.15);
+  transform-origin: right center;
+  transform: rotateY(90deg) translateZ(0px);
+}
+.env-bottom {
+  width: 100%;
+  height: var(--depth);
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, #2C1E16, #261A10);
+  border-inline: 1px solid rgba(184,148,86,.15);
+  transform-origin: center bottom;
+  transform: rotateX(-90deg) translateZ(0px);
+}
+.env-flap-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  transform-style: preserve-3d;
+  transform-origin: top center;
+  transform: translateZ(calc(var(--depth) / 2));
+  transition: transform .8s cubic-bezier(.36,.07,.19,.97);
+  z-index: 2;
+}
+#cover.opened .env-flap-group {
+  transform: translateZ(calc(var(--depth) / 2)) rotateX(160deg);
+}
+.env-flap-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(170deg, #4A3628, #3E2C1E);
+  filter: drop-shadow(0 0 .5px rgba(184,148,86,.3));
+  backface-visibility: hidden;
+}
+.env-flap-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(170deg, #42301E, #3A2818);
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+.cover-ornament {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(calc(var(--depth) / 2 + 1px));
+  z-index: 3;
+  width: 66px;
+  height: 66px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: #2A1E16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: pulse-ring 2.5s ease-in-out infinite, ornament-glow 3s ease-in-out infinite;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.cover-ornament.fading {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateZ(calc(var(--depth) / 2 + 1px)) scale(0.3);
+  animation: none;
+}
+.cover-ornament:hover {
+  box-shadow: 0 0 24px rgba(184,148,86,.35);
+}
+.cover-ornament span {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--gold);
+  font-style: italic;
+}
+.envelope-body {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateZ(calc(var(--depth) / 2 + 1px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  padding: 2.5rem 2rem 1.5rem;
+  color: var(--cover-text);
+}
+.cover-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin: 0;
+}
+.cover-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(40px, 9vw, 58px);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.3;
+  color: var(--gold-light);
+  text-align: center;
+}
+.cover-names .amp {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.5em;
+  display: block;
+  margin-block: -0.2em;
+  color: var(--rose);
+}
+.cover-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  letter-spacing: 5px;
+  color: var(--gold);
+  margin: 0;
+}
+
+/* ───── Main ───── */
+#invitation {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-block: 0 3rem;
+  opacity: 0;
+  transform: scale(.97);
+  transition: opacity .8s ease 1.5s, transform .8s ease 1.5s;
+}
+#invitation.visible { opacity: 1; transform: scale(1); }
+
+/* ───── Sections ───── */
+section {
+  padding-block: 2rem;
+}
+
+/* ───── Divider ornament ───── */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-block: 1rem;
+}
+.ornament::before, .ornament::after {
+  content: '';
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  opacity: .5;
+}
+.ornament i {
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ───── Hero ───── */
+.hero {
+  padding-block: 3rem;
+  text-align: center;
+}
+.hero-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 1.5rem;
+}
+.hero-frame {
+  position: relative;
+  display: inline-block;
+  padding: 2.5rem 3rem;
+  margin-block: .5rem;
+  text-align: center;
+}
+.hero-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  opacity: .35;
+}
+.hero-frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--gold);
+  opacity: .2;
+}
+.hero-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: .6;
+}
+.hero-corner:nth-child(1) { top: -4px; left: -4px; border-width: 2px 0 0 2px; }
+.hero-corner:nth-child(2) { top: -4px; right: -4px; border-width: 2px 2px 0 0; }
+.hero-corner:nth-child(3) { bottom: -4px; left: -4px; border-width: 0 0 2px 2px; }
+.hero-corner:nth-child(4) { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
+.hero-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(40px, 10vw, 68px);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--text);
+  text-align: center;
+}
+.hero-names .amp {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: .4em;
+  display: block;
+  margin-block: .15em;
+  color: var(--rose);
+}
+.hero-sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: .8rem;
+  color: var(--gold);
+  opacity: .5;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+.hero-sub::before, .hero-sub::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  margin: 1.5rem 0 0;
+}
+
+/* ───── Greeting ───── */
+.greeting { text-align: center; }
+.greeting p { margin: 0; font-size: 20px; color: var(--text-muted); }
+.greeting .guest-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(32px, 7vw, 48px);
+  color: var(--gold);
+  margin: .5rem 0;
+  line-height: 1.3;
+}
+.greeting .invite-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--text);
+  margin-top: .5rem;
+}
+
+/* ───── Couple ───── */
+.couple-grid {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.couple-card { flex: 0 1 240px; text-align: center; }
+.photo-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  background: var(--bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-frame span {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.couple-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 .3rem;
+}
+.couple-card p {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.couple-heart {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-top: 1rem;
+}
+.couple-heart::before, .couple-heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 32px;
+  background: var(--rose);
+  border-radius: 20px 20px 0 0;
+}
+.couple-heart::before { left: 20px; transform: rotate(-45deg); transform-origin: 0 100%; }
+.couple-heart::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+@media(max-width:560px) {
+  .couple-grid { gap: .8rem; }
+  .couple-card { flex: 1 1 0; min-width: 0; }
+  .photo-frame { width: 110px; height: 110px; }
+  .couple-card h3 { font-size: 17px; }
+  .couple-card p { font-size: 12px; }
+  .couple-heart { width: 28px; height: 28px; transform: scale(.6); margin-top: 0; }
+}
+
+/* ───── Events ───── */
+.events h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.event-item {
+  background: var(--card);
+  border: 1px solid var(--divider);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  transition: transform .3s, box-shadow .3s;
+}
+.event-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--gold-subtle);
+}
+.event-item h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 .6rem;
+  color: var(--gold);
+}
+.event-item .ev-time {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0 0 .3rem;
+  letter-spacing: 1px;
+}
+.event-item .ev-venue {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0;
+}
+.event-item .ev-address {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: .2rem 0 0;
+}
+
+/* ───── Countdown ───── */
+.countdown-section {
+  background: rgba(35,30,24,0.4);
+  margin-inline: -24px;
+  padding-inline: 24px;
+  text-align: center;
+}
+.countdown-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 0rem;
+}
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 2.5rem);
+}
+.cd-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+}
+.cd-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 8vw, 52px);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+}
+.cd-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ───── Story Timeline ───── */
+.story h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 2.5rem;
+  text-align: center;
+}
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--gold);
+  opacity: .4;
+}
+.tl-item {
+  position: relative;
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 8px;
+  width: 11px;
+  height: 11px;
+  background: var(--bg);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+.tl-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin: 0 0 .3rem;
+}
+.tl-item h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 .3rem;
+}
+.tl-item p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ───── Gallery ───── */
+.gallery h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.gallery-cell {
+  aspect-ratio: 1;
+  background: var(--bg-alt);
+  border: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform .3s;
+}
+.gallery-cell:hover { transform: scale(1.03); }
+.gallery-cell span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ───── Wishes ───── */
+.wishes { text-align: center; }
+.wishes h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 .5rem;
+}
+.wishes > p { color: var(--text-muted); margin: 0 0 2rem; }
+#wish-form {
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+#wish-form input,
+#wish-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--divider);
+  background: var(--card);
+  color: var(--text);
+  outline: none;
+  transition: border-color .3s;
+}
+#wish-form input:focus,
+#wish-form textarea:focus {
+  border-color: var(--gold);
+}
+#wish-form textarea { resize: vertical; min-height: 100px; }
+#wish-form button {
+  align-self: center;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding: 12px 36px;
+  cursor: pointer;
+  transition: opacity .3s;
+}
+#wish-form button:hover { opacity: .85; }
+.wish-hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+.wish-status {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  display: none;
+}
+.wish-status.success {
+  display: block;
+  background: rgba(184,148,86,.1);
+  color: var(--gold);
+  border: 1px solid rgba(184,148,86,.25);
+}
+.wish-status.error {
+  display: block;
+  background: rgba(244,67,54,.12);
+  color: #c62828;
+  border: 1px solid rgba(244,67,54,.3);
+}
+#wish-form button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.wish-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1.2rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  letter-spacing: .5px;
+  padding: 0;
+  cursor: pointer;
+  transition: color .3s;
+}
+.wish-toggle:hover {
+  color: var(--gold);
+}
+.wish-toggle svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: transform .3s;
+}
+.wish-toggle.open svg {
+  transform: rotate(180deg);
+}
+.wish-slider-wrap {
+  margin-top: 1.5rem;
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .8s ease, opacity .7s ease;
+}
+.wish-slider-wrap.open {
+  max-height: 600px;
+  opacity: 1;
+  transition: max-height .8s ease, opacity .6s ease .15s;
+}
+.wish-carousel {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 120px;
+  touch-action: pan-y;
+}
+.wish-slide {
+  position: absolute;
+  inset: 0;
+  background: var(--card);
+  border: 1px solid var(--divider);
+  padding: 1.8rem 1.5rem;
+  text-align: left;
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .9s ease, transform .9s ease;
+  pointer-events: none;
+}
+.wish-slide.active {
+  position: relative;
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.wish-slide.exit-left {
+  opacity: 0;
+  transform: translateX(-20px) scale(.95);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.wish-slide.exit-right {
+  opacity: 0;
+  transform: translateX(20px) scale(.95);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.wish-slide .ws-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--gold);
+  margin: 0 0 .5rem;
+}
+.wish-slide .ws-msg {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 .8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.wish-slide .ws-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.wish-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.2rem;
+}
+.wish-nav-btn {
+  background: none;
+  border: 1px solid var(--divider);
+  color: var(--gold);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .3s, border-color .3s;
+}
+.wish-nav-btn:hover {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+.wish-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.wish-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--divider);
+  transition: background .3s, transform .3s;
+}
+.wish-dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+}
+.wish-counter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.wish-loading, .wish-empty {
+  color: var(--text-muted);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* ───── Footer ───── */
+footer {
+  text-align: center;
+  padding-block: 0 2rem;
+}
+footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
+.footer-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px !important;
+  color: var(--gold) !important;
+  margin-top: 1rem !important;
+}
+.footer-tag {
+  font-size: 13px !important;
+  letter-spacing: 2px;
+  margin-top: .5rem !important;
+}
+
+/* ───── Music button ───── */
+.music-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  background: var(--bg);
+  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px var(--gold-subtle);
+  transition: transform .3s, box-shadow .3s;
+  opacity: 0;
+  pointer-events: none;
+}
+.music-btn.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px var(--gold-subtle);
+}
+.music-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--gold);
+}
+.music-btn .music-slash {
+  display: block;
+  transition: opacity .3s;
+}
+.music-btn.playing .music-slash {
+  opacity: 0;
+}
+.music-btn:not(.playing) .music-slash {
+  opacity: 1;
+}
+.music-disc {
+  position: absolute;
+  inset: -4px;
+  border: 1.5px dashed var(--gold);
+  border-radius: 50%;
+  opacity: .4;
+  animation: spin-disc 4s linear infinite paused;
+}
+.music-btn.playing .music-disc {
+  animation-play-state: running;
+}
+@keyframes spin-disc {
+  to { transform: rotate(360deg); }
+}
+
+/* ───── Floating petals ───── */
+.petal {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  will-change: transform;
+}
+.petal i {
+  display: block;
+  width: 12px;
+  height: 11px;
+  position: relative;
+  opacity: .35;
+}
+.petal i::before,
+.petal i::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 10px;
+  background: var(--rose);
+  border-radius: 6px 6px 0 0;
+}
+.petal i::before {
+  left: 6px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+.petal i::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+@keyframes petal-fall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg);  opacity: 0; }
+}
+
+/* ───── Scroll reveal ───── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.shown {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ───── Keyframes ───── */
+@keyframes pulse-ring {
+  0%, 100% { transform: translate(-50%,-50%) translateZ(calc(var(--depth,8px) / 2 + 1px)) scale(1); opacity: 1; }
+  50% { transform: translate(-50%,-50%) translateZ(calc(var(--depth,8px) / 2 + 1px)) scale(1.06); opacity: .7; }
+}
+@keyframes ornament-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(184,148,86,.1), 0 0 30px rgba(184,148,86,.05); }
+  50% { box-shadow: 0 0 20px rgba(184,148,86,.25), 0 0 45px rgba(184,148,86,.12); }
+}
+
+/* ───── Reduced motion ───── */
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  #cover { transition: opacity .3s; }
+  #cover.opened { transform: scale(1); opacity: 0; }
+  #cover.opened .envelope-flap { transform: none; }
+}
+
+/* ───── Responsive ───── */
+@media(max-width: 600px) {
+  body { font-size: 17px; }
+  section { padding: 1.5rem 1rem; }
+  .hero { padding-block: 1.5rem; }
+  .event-item { padding: 1.2rem 1rem; }
+  .event-item h3 { font-size: 18px; }
+  .event-item p { font-size: 15px; }
+  .timeline { padding-left: 1.5rem; }
+  .tl-item { padding-left: 1rem; }
+  .tl-item::before { left: -1.5rem; }
+  .tl-date { font-size: 14px; }
+  .tl-title { font-size: 18px; }
+  .tl-item p { font-size: 15px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .greeting p { font-size: 18px; }
+  .countdown-item .num { font-size: 24px; }
+  .countdown-item .lbl { font-size: 12px; }
+  .wish-card { font-size: 15px; }
+  footer p { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ Cover ═══════ -->
+<div id="cover">
+  <div class="envelope">
+    <div class="env-scene">
+      <div class="env-face env-front"></div>
+      <div class="env-face env-back"></div>
+      <div class="env-face env-right"></div>
+      <div class="env-face env-bottom"></div>
+      <div class="env-flap-group">
+        <div class="env-flap-front"></div>
+        <div class="env-flap-back"></div>
+      </div>
+      <div class="cover-ornament" id="open-btn"><span>W</span></div>
+      <div class="envelope-body">
+        <p class="cover-label">Thiệp Mời</p>
+        <h1 class="cover-names">
+          Quỳnh Anh
+          <span class="amp">&</span>
+          Đức Phong
+        </h1>
+        <p class="cover-date">13 - 14 . 11 . 2026</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ Petals container ═══════ -->
+<div id="petals" aria-hidden="true"></div>
+
+<!-- ═══════ Invitation ═══════ -->
+<main id="invitation">
+
+  <!-- Hero -->
+  <section class="hero reveal">
+    <p class="hero-label">Save the Date</p>
+    <div class="hero-frame">
+      <span class="hero-corner"></span>
+      <span class="hero-corner"></span>
+      <span class="hero-corner"></span>
+      <span class="hero-corner"></span>
+      <h1 class="hero-names">
+        Quỳnh Anh
+        <span class="amp">&</span>
+        Đức Phong
+      </h1>
+      <div class="hero-sub" aria-hidden="true">We're getting married</div>
+    </div>
+    <p class="hero-date">13 . 11 &mdash; 14 . 11 . 2026</p>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Greeting -->
+  <section class="greeting reveal">
+    <p>Trân trọng kính mời</p>
+    <h2 class="guest-name" id="guest-name">Quý Khách</h2>
+    <p class="invite-text">đến dự lễ thành hôn của chúng tôi</p>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Couple -->
+  <section class="reveal">
+    <div class="couple-grid">
+      <div class="couple-card">
+        <div class="photo-frame"><span>Ảnh<br>Chú Rể</span></div>
+        <h3>Hoàng Đức Phong</h3>
+        <p>Con trai<br>Ông Hoàng Phi Phục &amp; Bà Nguyễn Thị Thu Hà</p>
+      </div>
+      <div class="couple-heart" aria-hidden="true"></div>
+      <div class="couple-card">
+        <div class="photo-frame"><span>Ảnh<br>Cô Dâu</span></div>
+        <h3>Lê Hoàng Quỳnh Anh</h3>
+        <p>Con gái<br>Ông Lê Văn Sơn &amp; Bà Hoàng Hoa Mỹ</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Events -->
+  <section class="events reveal">
+    <h2>Lễ Cưới</h2>
+    <div class="event-list">
+      <div class="event-item">
+        <h3>Lễ Vu Quy</h3>
+        <p class="ev-time">Thứ Sáu, 13/11/2026</p>
+        <p class="ev-venue">Tư gia nhà gái</p>
+        <p class="ev-address">Cầu Nhà Trường, Xóm 8, Quỳnh Tân, Quỳnh Văn, Nghệ An</p>
+      </div>
+      <div class="event-item">
+        <h3>Lễ Thành Hôn</h3>
+        <p class="ev-time">Thứ Bảy, 14/11/2026</p>
+        <p class="ev-venue">Tư gia nhà trai</p>
+        <p class="ev-address">Số nhà 72, Quỳnh Đôi, Quỳnh Anh, Nghệ An</p>
+      </div>
+      <div class="event-item">
+        <h3>Tiệc Cưới</h3>
+        <p class="ev-time">Thứ Bảy, 14/11/2026</p>
+        <p class="ev-venue">Sân Đa Năng</p>
+        <p class="ev-address">Quỳnh Anh, Nghệ An</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Countdown -->
+  <section class="countdown-section reveal">
+    <h2>Đếm Ngược</h2>
+    <div class="countdown-grid">
+      <div class="cd-item"><span class="cd-num" id="cd-d">--</span><span class="cd-label">Ngày</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-h">--</span><span class="cd-label">Giờ</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-m">--</span><span class="cd-label">Phút</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-s">--</span><span class="cd-label">Giây</span></div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Love Story -->
+  <section class="story">
+    <h2 class="reveal">Chuyện Tình Yêu</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <p class="tl-year">Thuở nhỏ</p>
+        <h3>Lần Đầu Gặp Gỡ</h3>
+        <p>Có lẽ ông trời đã sắp đặt, hai đứa trẻ lớn lên cùng một vùng quê Quỳnh Lưu, vô tình biết đến nhau từ thuở còn thơ dại. Khi ấy, chẳng ai nghĩ rằng sợi dây vô hình ấy rồi sẽ buộc chặt hai trái tim lại với nhau.</p>
+      </div>
+      <div class="tl-item reveal">
+        <p class="tl-year">Đầu 2023</p>
+        <h3>Những Tin Nhắn Đầu Tiên</h3>
+        <p>Năm tháng trôi qua, mỗi người mỗi ngả. Rồi một ngày, qua màn hình điện thoại, hai con người ấy tìm lại nhau. Những cuộc trò chuyện online từ rụt rè đến say mê, từ vài dòng tin nhắn ngắn ngủi đến những đêm dài không muốn tắt màn hình. Khoảng cách địa lý chẳng thể ngăn hai trái tim đang dần xích lại gần nhau hơn từng ngày.</p>
+      </div>
+      <div class="tl-item reveal">
+        <p class="tl-year">21 / 05 / 2023</p>
+        <h3>Chính Thức Hẹn Hò</h3>
+        <p>Ngày gặp lại nhau ngoài đời thực, mọi cảm xúc như vỡ òa. Đôi mắt ấy, nụ cười ấy, giọng nói ấy &mdash; tất cả đều đẹp hơn cả những gì anh tưởng tượng qua màn hình. Và ngày 21 tháng 5 năm 2023, anh nắm lấy tay em, chính thức bắt đầu hành trình yêu thương cùng nhau. Từ đây, không còn là hai người xa lạ nữa &mdash; mà là "chúng mình".</p>
+      </div>
+      <div class="tl-item reveal">
+        <p class="tl-year">2023 &mdash; 2026</p>
+        <h3>Cùng Nhau Xây Dựng</h3>
+        <p>Tình yêu lớn lên qua từng chuyến đi &mdash; cùng nhau ngắm hoàng hôn trên biển, lạc giữa phố cổ trong mưa, hay đơn giản chỉ là ngồi bên nhau trong quán quen ngày cuối tuần. Cũng có những lúc khó khăn, những lần cãi vã rồi lại ôm nhau thật chặt. Mỗi thử thách vượt qua, mỗi nụ cười chia sẻ đều khắc sâu thêm một điều: người này chính là người mình muốn đi cùng đến cuối con đường.</p>
+      </div>
+      <div class="tl-item reveal">
+        <p class="tl-year">28 / 08 / 2026</p>
+        <h3>Lời Cầu Hôn</h3>
+        <p>Rạng sáng ngày 28 tháng 8, khi đồng hồ vừa điểm sang ngày sinh nhật em, anh quỳ gối giữa ánh nến lung linh và hỏi: "Em có muốn cùng anh đi hết cuộc đời này không?" Nước mắt hạnh phúc lăn dài trên má, em gật đầu. Đó là món quà sinh nhật đẹp nhất mà em từng nhận được &mdash; và cũng là lời hứa đẹp nhất mà anh từng nói.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Gallery -->
+  <section class="gallery reveal">
+    <h2>Album Ảnh</h2>
+    <div class="gallery-grid">
+      <div class="gallery-cell"><span>Ảnh 1</span></div>
+      <div class="gallery-cell"><span>Ảnh 2</span></div>
+      <div class="gallery-cell"><span>Ảnh 3</span></div>
+      <div class="gallery-cell"><span>Ảnh 4</span></div>
+      <div class="gallery-cell"><span>Ảnh 5</span></div>
+      <div class="gallery-cell"><span>Ảnh 6</span></div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true"><i></i></div>
+
+  <!-- Wishes -->
+  <section class="wishes reveal">
+    <h2>Sổ Lưu Bút</h2>
+    <p>Hãy để lại lời chúc tốt đẹp cho chúng tôi nhé</p>
+    <form id="wish-form">
+      <input type="text" id="w-name" placeholder="Tên của bạn" required maxlength="60">
+      <textarea id="w-msg" placeholder="Lời chúc của bạn..." required maxlength="500"></textarea>
+      <input type="text" id="w-hp" class="wish-hp" tabindex="-1" autocomplete="off">
+      <button type="submit" id="wish-btn">Gửi Lời Chúc</button>
+    </form>
+    <div id="wish-status" class="wish-status"></div>
+    <button class="wish-toggle" id="wish-toggle">Xem lời chúc từ mọi người <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <div class="wish-slider-wrap" id="wish-slider-wrap">
+      <div class="wish-carousel" id="wish-carousel"></div>
+      <div class="wish-nav" id="wish-nav" style="display:none">
+        <button class="wish-nav-btn" id="wish-prev">&#8249;</button>
+        <div class="wish-dots" id="wish-dots"></div>
+        <button class="wish-nav-btn" id="wish-next">&#8250;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="ornament" aria-hidden="true"><i></i></div>
+    <p>Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi</p>
+    <p class="footer-names">Quỳnh Anh & Đức Phong</p>
+    <p class="footer-tag">#QuAnhPhong2026</p>
+  </footer>
+
+</main>
+
+<!-- Music -->
+<audio id="bg-music" src="Love%20Story.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="music-btn" aria-label="Bật/Tắt nhạc">
+  <span class="music-disc"></span>
+  <svg viewBox="0 0 24 24">
+    <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6ZM10 19a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/>
+    <line class="music-slash" x1="3" y1="3" x2="21" y2="21" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script>
+(function () {
+  /* ── Wedding date (change this) ── */
+  var WEDDING = new Date('2026-11-14T09:00:00');
+
+  /* ── Guest name from URL ── */
+  var params = new URLSearchParams(location.search);
+  var guest = params.get('to');
+  if (!guest && location.hash.length > 1) {
+    guest = decodeURIComponent(location.hash.slice(1)).replace(/[-_]/g, ' ');
+  }
+  if (guest) {
+    document.getElementById('guest-name').textContent = guest;
+  }
+
+  /* ── Cover open ── */
+  var cover = document.getElementById('cover');
+  var invitation = document.getElementById('invitation');
+  var bgMusic = document.getElementById('bg-music');
+  var musicBtn = document.getElementById('music-btn');
+
+  document.getElementById('open-btn').addEventListener('click', function () {
+    window.scrollTo(0, 0);
+    this.classList.add('fading');
+    setTimeout(function () {
+      cover.classList.add('opened');
+      invitation.classList.add('visible');
+      document.body.style.overflow = '';
+      startPetals();
+      setTimeout(function () { cover.style.display = 'none'; }, 2000);
+      bgMusic.play().then(function () {
+        musicBtn.classList.add('playing', 'active');
+      }).catch(function () {
+        musicBtn.classList.add('active');
+      });
+      setTimeout(startAutoScroll, 4500);
+      fetchWishes(true);
+    }, 200);
+  });
+
+  /* ── Auto-scroll ── */
+  var autoScrollId = null;
+  var autoScrollSpeed = 0.5;
+  var pauseTimer = null;
+
+  function startAutoScroll() {
+    if (autoScrollId) return;
+    autoScrollId = requestAnimationFrame(autoScrollStep);
+  }
+
+  function stopAutoScroll() {
+    if (autoScrollId) { cancelAnimationFrame(autoScrollId); autoScrollId = null; }
+  }
+
+  function autoScrollStep() {
+    var maxY = document.documentElement.scrollHeight - window.innerHeight;
+    if (window.scrollY >= maxY) { autoScrollId = null; return; }
+    window.scrollBy(0, autoScrollSpeed);
+    autoScrollId = requestAnimationFrame(autoScrollStep);
+  }
+
+  function pauseAndResume() {
+    stopAutoScroll();
+    clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(startAutoScroll, 4500);
+  }
+
+  window.addEventListener('wheel', pauseAndResume, { passive: true });
+  window.addEventListener('touchstart', pauseAndResume, { passive: true });
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') pauseAndResume();
+  });
+
+  musicBtn.addEventListener('click', function () {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicBtn.classList.add('playing');
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+    }
+  });
+  document.body.style.overflow = 'hidden';
+
+  /* ── Scroll reveal ── */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('shown');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { obs.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('shown'); });
+  }
+
+  /* ── Countdown ── */
+  var dEl = document.getElementById('cd-d');
+  var hEl = document.getElementById('cd-h');
+  var mEl = document.getElementById('cd-m');
+  var sEl = document.getElementById('cd-s');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function tick() {
+    var diff = WEDDING - Date.now();
+    if (diff <= 0) {
+      dEl.textContent = '00'; hEl.textContent = '00';
+      mEl.textContent = '00'; sEl.textContent = '00';
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    var m = Math.floor(s / 60); s %= 60;
+    var h = Math.floor(m / 60); m %= 60;
+    var d = Math.floor(h / 24); h %= 24;
+    dEl.textContent = pad(d);
+    hEl.textContent = pad(h);
+    mEl.textContent = pad(m);
+    sEl.textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ── Petals ── */
+  function startPetals() {
+    var container = document.getElementById('petals');
+    var count = window.innerWidth < 500 ? 10 : 18;
+    for (var j = 0; j < count; j++) {
+      var p = document.createElement('div');
+      p.className = 'petal';
+      p.innerHTML = '<i></i>';
+      var dur = 8 + Math.random() * 14;
+      var delay = Math.random() * 12;
+      var left = Math.random() * 100;
+      var size = 0.5 + Math.random() * 0.8;
+      p.style.left = left + '%';
+      p.style.top = '-20px';
+      p.querySelector('i').style.transform = 'scale(' + size + ')';
+      p.style.animation = 'petal-fall ' + dur + 's linear ' + delay + 's infinite';
+      container.appendChild(p);
+    }
+  }
+
+  /* ── Wishes (Google Sheets backend) ── */
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqE36MzH0D-mS3KXVEbE8uMEal3eWKiBht4ZcXgDliY1g9L-E7DKKXrNrq9qAQR4s9lQ/exec';
+  var RATE_KEY = 'wedding_wish_ts';
+  var RATE_LIMIT_MS = 60000;
+
+  function isRateLimited() {
+    try {
+      var last = parseInt(localStorage.getItem(RATE_KEY), 10);
+      if (last && Date.now() - last < RATE_LIMIT_MS) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  function markSent() {
+    try { localStorage.setItem(RATE_KEY, String(Date.now())); } catch (e) {}
+  }
+
+  function showStatus(msg, type) {
+    var el = document.getElementById('wish-status');
+    el.textContent = msg;
+    el.className = 'wish-status ' + type;
+  }
+
+  var wishesLoaded = false;
+  var wishIdx = 0;
+  var wishSlides = [];
+  var toggleBtn = document.getElementById('wish-toggle');
+  var sliderWrap = document.getElementById('wish-slider-wrap');
+  var carousel = document.getElementById('wish-carousel');
+  var navWrap = document.getElementById('wish-nav');
+  var dotsWrap = document.getElementById('wish-dots');
+
+  function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    var total = wishSlides.length;
+    var maxDots = Math.min(total, 4);
+    for (var i = 0; i < maxDots; i++) {
+      var dot = document.createElement('span');
+      var activeDot = total <= 4 ? wishIdx : Math.round(wishIdx / (total - 1) * (maxDots - 1));
+      dot.className = 'wish-dot' + (i === activeDot ? ' active' : '');
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function goTo(idx, dir) {
+    if (idx < 0 || idx >= wishSlides.length || idx === wishIdx) return;
+    var old = wishSlides[wishIdx];
+    old.classList.remove('active');
+    old.classList.add(dir === 'left' ? 'exit-left' : 'exit-right');
+    setTimeout(function () { old.classList.remove('exit-left', 'exit-right'); }, 500);
+    wishIdx = idx;
+    wishSlides[wishIdx].classList.add('active');
+    buildDots();
+  }
+
+  function renderSlides(wishes) {
+    carousel.innerHTML = '';
+    wishSlides = [];
+    wishIdx = 0;
+    if (!wishes.length) {
+      carousel.innerHTML = '<p class="wish-empty">Chưa có lời chúc nào.</p>';
+      navWrap.style.display = 'none';
+      return;
+    }
+    wishes.forEach(function (w, i) {
+      var slide = document.createElement('div');
+      slide.className = 'wish-slide' + (i === 0 ? ' active' : '');
+      var words = w.message.split(/\s+/);
+      var preview = words.length > 4 ? words.slice(0, 4).join(' ') + '...' : w.message;
+      slide.innerHTML =
+        '<p class="ws-name">' + escHtml(w.name) + '</p>' +
+        '<p class="ws-msg">' + escHtml(preview) + '</p>' +
+        '<p class="ws-time">' + escHtml(w.time) + '</p>';
+      carousel.appendChild(slide);
+      wishSlides.push(slide);
+    });
+    navWrap.style.display = wishes.length > 1 ? 'flex' : 'none';
+    buildDots();
+  }
+
+  document.getElementById('wish-prev').addEventListener('click', function () {
+    goTo(wishIdx <= 0 ? wishSlides.length - 1 : wishIdx - 1, 'right');
+  });
+  document.getElementById('wish-next').addEventListener('click', function () {
+    goTo(wishIdx >= wishSlides.length - 1 ? 0 : wishIdx + 1, 'left');
+  });
+
+  (function () {
+    var startX = 0, startY = 0, dragging = false;
+    carousel.addEventListener('touchstart', function (e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      dragging = true;
+    }, { passive: true });
+    carousel.addEventListener('touchend', function (e) {
+      if (!dragging) return;
+      dragging = false;
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
+      if (dx < 0) goTo(wishIdx >= wishSlides.length - 1 ? 0 : wishIdx + 1, 'left');
+      else goTo(wishIdx <= 0 ? wishSlides.length - 1 : wishIdx - 1, 'right');
+    }, { passive: true });
+  })();
+
+  var WISH_CACHE_KEY = 'wedding_wishes_cache';
+
+  function getCachedWishes() {
+    try {
+      var raw = sessionStorage.getItem(WISH_CACHE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
+
+  function setCachedWishes(wishes) {
+    try { sessionStorage.setItem(WISH_CACHE_KEY, JSON.stringify(wishes)); } catch (e) {}
+  }
+
+  function fetchWishes(silent) {
+    if (!silent) {
+      var cached = getCachedWishes();
+      if (cached) {
+        wishesLoaded = true;
+        renderSlides(cached);
+      } else {
+        carousel.innerHTML = '<p class="wish-loading">Đang tải lời chúc...</p>';
+        navWrap.style.display = 'none';
+      }
+    }
+    fetch(SCRIPT_URL + '?action=get')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var wishes = data.wishes || [];
+        setCachedWishes(wishes);
+        wishesLoaded = true;
+        renderSlides(wishes);
+      })
+      .catch(function () {
+        if (!wishesLoaded) {
+          carousel.innerHTML = '<p class="wish-empty">Không tải được lời chúc.</p>';
+        }
+      });
+  }
+
+  toggleBtn.addEventListener('click', function () {
+    var isOpen = sliderWrap.classList.toggle('open');
+    toggleBtn.classList.toggle('open', isOpen);
+    toggleBtn.innerHTML = isOpen
+      ? 'Ẩn lời chúc <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>'
+      : 'Xem lời chúc từ mọi người <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
+    if (isOpen) {
+      if (wishesLoaded) {
+        var cached = getCachedWishes();
+        if (cached) renderSlides(cached);
+      } else {
+        fetchWishes(false);
+      }
+    }
+  });
+
+  document.getElementById('wish-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (document.getElementById('w-hp').value) return;
+    if (isRateLimited()) {
+      showStatus('Bạn vừa gửi lời chúc rồi, vui lòng đợi một chút nhé!', 'error');
+      return;
+    }
+    var nameEl = document.getElementById('w-name');
+    var msgEl = document.getElementById('w-msg');
+    var btn = document.getElementById('wish-btn');
+    var n = nameEl.value.trim();
+    var m = msgEl.value.trim();
+    if (!n || !m) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Đang gửi...';
+    showStatus('', '');
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: n, message: m })
+    }).then(function () {
+      markSent();
+      nameEl.value = '';
+      msgEl.value = '';
+      showStatus('Cảm ơn bạn đã gửi lời chúc! ♡', 'success');
+      wishesLoaded = false;
+      try { sessionStorage.removeItem(WISH_CACHE_KEY); } catch (e) {}
+      if (sliderWrap.classList.contains('open')) fetchWishes(false);
+    }).catch(function () {
+      showStatus('Không gửi được, vui lòng thử lại sau.', 'error');
+    }).finally(function () {
+      btn.disabled = false;
+      btn.textContent = 'Gửi Lời Chúc';
+    });
+  });
+})();
+</script>
+</body>
+</html>
