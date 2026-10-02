@@ -26,10 +26,9 @@
 
 body {
   background-color: var(--bg);
-  background-image: url("Gemini_Generated_Image_u5h8p4u5h8p4u5h8.png");
-  background-size: 100% auto;
-  background-repeat: repeat-y;
-  background-position: top center;
+  background-image: url('Capture.PNG');
+  background-size: 420px auto;
+  background-repeat: repeat;
   color: var(--text);
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 18px;
@@ -72,7 +71,7 @@ body {
 .tri-center {
   position: absolute;
   inset: 0;
-  background: #FFFCF5;
+  background: url('Capture.PNG') center / 300px auto repeat;
   border: 2px solid rgba(184,148,78,0.5);
   display: flex;
   flex-direction: column;
@@ -95,7 +94,7 @@ body {
   top: 0;
   bottom: 0;
   width: 50%;
-  background: #FFFCF5;
+  background: url('Capture.PNG') center / 300px auto repeat;
   border: 2px solid rgba(184,148,78,0.5);
   box-shadow: 0 2px 12px rgba(184,148,78,0.1);
 }
@@ -236,17 +235,28 @@ body {
 #invitation.visible { opacity: 1; transform: scale(1); }
 
 .content-card {
-  background: var(--card);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: url('Gemini_Generated_Image_u5h8p4u5h8p4u5h8.png') top center / 100% auto repeat-y;
   border-radius: 12px;
   padding: 2rem 1.5rem;
   box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+  position: relative;
+}
+.content-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255,255,255,0.85);
+  pointer-events: none;
 }
 
 /* ───── Sections ───── */
 section {
   padding-block: 2rem;
+  position: relative;
+}
+.content-card > .ornament {
+  position: relative;
 }
 
 /* ───── Divider ornament ───── */
@@ -254,111 +264,120 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-block: 1rem;
+  gap: 12px;
+  margin-block: 1.2rem;
+  color: var(--gold);
+  opacity: .6;
 }
 .ornament::before, .ornament::after {
   content: '';
-  width: 60px;
+  flex: 0 0 50px;
   height: 1px;
-  background: var(--gold);
-  opacity: .5;
+  background: linear-gradient(to var(--dir, right), var(--gold), transparent);
 }
+.ornament::before { --dir: right; }
+.ornament::after { --dir: left; }
 .ornament i {
-  width: 7px;
-  height: 7px;
-  background: var(--gold);
-  transform: rotate(45deg);
   display: block;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
   flex-shrink: 0;
+}
+.ornament i::before {
+  content: '✦';
 }
 
 /* ───── Hero ───── */
 .hero {
-  padding-block: 3rem;
-  text-align: center;
-}
-.hero-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 1.5rem;
-}
-.hero-frame {
   position: relative;
-  display: inline-block;
-  padding: 2.5rem 3rem;
-  margin-block: .5rem;
-  text-align: center;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .8s ease 1.5s;
+  margin: 0;
+  padding: 0 !important;
+  width: 100%;
 }
-.hero-frame::before {
+.hero.visible {
+  opacity: 1;
+}
+.hero::after {
   content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+.hero-overlay {
   position: absolute;
   inset: 0;
-  border: 1px solid var(--gold);
-  opacity: .35;
-}
-.hero-frame::after {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--gold);
-  opacity: .2;
-}
-.hero-corner {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-color: var(--gold);
-  border-style: solid;
-  opacity: .6;
-}
-.hero-corner:nth-child(1) { top: -4px; left: -4px; border-width: 2px 0 0 2px; }
-.hero-corner:nth-child(2) { top: -4px; right: -4px; border-width: 2px 2px 0 0; }
-.hero-corner:nth-child(3) { bottom: -4px; left: -4px; border-width: 0 0 2px 2px; }
-.hero-corner:nth-child(4) { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
-.hero-names {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(40px, 10vw, 68px);
-  font-weight: 400;
-  margin: 0;
-  line-height: 1.2;
-  color: var(--text);
-  text-align: center;
-}
-.hero-names .amp {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: .4em;
-  display: block;
-  margin-block: .15em;
-  color: var(--rose);
-}
-.hero-sub {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: .8rem;
-  color: var(--gold);
-  opacity: .5;
+  justify-content: flex-end;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  z-index: 3;
+}
+.hero-overlay .hero-label {
+  font-family: 'Cormorant Garamond', serif;
   font-size: 12px;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 .3rem;
+  background: rgba(0,0,0,0.18);
+  padding: 4px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
-.hero-sub::before, .hero-sub::after {
-  content: '';
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
+.hero-monogram {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(64px, 22vw, 120px);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  transform: rotate(-5deg) translateX(-0.15em);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.15);
 }
-.hero-date {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  letter-spacing: 3px;
-  color: var(--text-muted);
-  margin: 1.5rem 0 0;
+.hero-monogram .mono-n {
+  display: inline-block;
+  transform: translateY(-0.12em);
+}
+.hero-monogram .mono-t {
+  display: inline-block;
+  transform: translateY(0.12em);
+}
+.hero-monogram .amp {
+  font-family: 'Great Vibes', cursive;
+  font-size: .45em;
+  display: inline-block;
+  margin-inline: 0.08em;
+  opacity: .7;
+}
+.hero-overlay .hero-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: #fff;
+  margin: .4rem 0 0;
+  background: rgba(0,0,0,0.18);
+  padding: 4px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* ───── Formal section ───── */
@@ -535,10 +554,10 @@ section {
 }
 .countdown-section h2 {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(36px, 9vw, 48px);
+  font-size: clamp(40px, 9vw, 55px);
   font-weight: 500;
   color: var(--gold);
-  margin: 0 0 .5rem;
+  margin: 0 0 0rem;
 }
 .countdown-grid {
   display: flex;
@@ -626,46 +645,137 @@ section {
 }
 
 /* ───── Gallery ───── */
+.gallery {
+  margin-inline: -18px;
+  padding-inline: 2px;
+}
 .gallery h2 {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(36px, 9vw, 48px);
+  font-size: clamp(40px, 9vw, 55px);
   font-weight: 500;
   color: var(--gold);
-  margin: 0 0 2rem;
+  margin: 0 0 .5rem;
   text-align: center;
 }
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 }
 .gallery-cell {
-  aspect-ratio: 1;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid var(--divider);
-  border-radius: 8px;
+  overflow: hidden;
+  border-radius: 6px;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity .6s ease, transform .6s ease, box-shadow .3s;
+}
+.gallery-cell.shown {
+  opacity: 1;
+  transform: scale(1);
+}
+.gallery-cell:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.gallery-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-cell.wide {
+  grid-column: 1 / -1;
+}
+.gallery-cell.wide img {
+  max-height: 300px;
+}
+.gallery-cell:not(.wide) img {
+  aspect-ratio: 3/4;
+  max-height: 260px;
+}
+
+/* ───── Lightbox ───── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  transition: transform .3s;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  touch-action: pan-y;
 }
-.gallery-cell:hover { transform: scale(1.03); }
-.gallery-cell span {
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 6px;
+  transition: transform .3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.lightbox-nav.prev { left: 12px; }
+.lightbox-nav.next { right: 12px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.6);
   font-size: 13px;
-  color: var(--text-muted);
+  letter-spacing: 2px;
 }
 
 /* ───── Wishes ───── */
 .wishes { text-align: center; }
 .wishes h2 {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(36px, 9vw, 48px);
+  font-size: clamp(40px, 9vw, 55px);
   font-weight: 500;
   color: var(--gold);
   margin: 0 0 .5rem;
 }
-.wishes > p { color: var(--text-muted); margin: 0 0 2rem; }
+.wishes > p { color: var(--text-muted); margin: 0 0 .5rem; }
 #wish-form {
   max-width: 480px;
   margin: 0 auto 2.5rem;
@@ -1008,7 +1118,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
 @media(max-width: 600px) {
   body { font-size: 17px; }
   section { padding: 1.5rem 1rem; }
-  .hero { padding-block: 1.5rem; }
+  .hero { padding-block: 0; }
   .event-item { padding: 1.2rem 1rem; }
   .event-item h3 { font-size: 18px; }
   .event-item p { font-size: 15px; }
@@ -1018,7 +1128,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   .tl-date { font-size: 14px; }
   .tl-title { font-size: 18px; }
   .tl-item p { font-size: 15px; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
   .greeting p { font-size: 18px; }
   .countdown-item .num { font-size: 24px; }
   .countdown-item .lbl { font-size: 12px; }
@@ -1052,27 +1162,19 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
 <!-- ═══════ Petals container ═══════ -->
 <div id="petals" aria-hidden="true"></div>
 
+<!-- Hero -->
+<section class="hero" id="hero-section">
+  <img class="hero-img" src="MSO06076.JPG" alt="Thành Nam & Diệu Thuần">
+  <div class="hero-overlay">
+    <p class="hero-label">Save the Date</p>
+    <h1 class="hero-monogram"><span class="mono-n">N</span><span class="amp">&</span><span class="mono-t">T</span></h1>
+    <p class="hero-date">18 . 10 . 2026</p>
+  </div>
+</section>
+
 <!-- ═══════ Invitation ═══════ -->
 <main id="invitation">
 <div class="content-card">
-
-  <!-- Hero -->
-  <section class="hero reveal">
-    <p class="hero-label">Save the Date</p>
-    <div class="hero-frame">
-      <span class="hero-corner"></span>
-      <span class="hero-corner"></span>
-      <span class="hero-corner"></span>
-      <span class="hero-corner"></span>
-      <h1 class="hero-names">
-        Thành Nam
-        <span class="amp">&</span>
-        Diệu Thuần
-      </h1>
-      <div class="hero-sub" aria-hidden="true">We're getting married</div>
-    </div>
-    <p class="hero-date">18 . 10 . 2026</p>
-  </section>
 
   <div class="ornament" aria-hidden="true"><i></i></div>
 
@@ -1081,13 +1183,13 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
     <div class="formal-families reveal">
       <div class="formal-family">
         <h3>Nhà Trai</h3>
-        <p>Ông Nguyễn Thành Dự</p>
-        <p>Bà Bùi Thị Thu Huyền</p>
+        <p>Ông: Nguyễn Thành Dự</p>
+        <p>Bà: Bùi Thị Thu Huyền</p>
       </div>
       <div class="formal-family">
         <h3>Nhà Gái</h3>
-        <p>Ông Hoàng Phi Phục</p>
-        <p>Bà Nguyễn Thị Thu Hà</p>
+        <p>Ông: Hoàng Phi Phục</p>
+        <p>Bà: Nguyễn Thị Thu Hà</p>
       </div>
     </div>
     <p class="formal-label reveal">Kính mời</p>
@@ -1107,7 +1209,6 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
         <p class="formal-event-at">Tại</p>
         <p class="formal-event-venue">Tư gia nhà gái</p>
         <p class="formal-event-address">Thôn 4 Quỳnh Đôi, Nghệ An</p>
-        <a class="formal-event-map" href="https://www.google.com/maps/search/Quỳnh+Đôi+Nghệ+An" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg> Chỉ đường</a>
       </div>
       <div class="formal-event reveal">
         <span class="formal-event-badge">Lễ Thành Hôn</span>
@@ -1116,7 +1217,6 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
         <p class="formal-event-at">Tại</p>
         <p class="formal-event-venue">Tư gia nhà trai</p>
         <p class="formal-event-address">P. Hải An, TP. Hải Phòng</p>
-        <a class="formal-event-map" href="https://www.google.com/maps/search/Hải+An+Hải+Phòng" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg> Chỉ đường</a>
       </div>
       <div class="formal-event reveal">
         <span class="formal-event-badge">Tiệc Cưới</span>
@@ -1129,6 +1229,8 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       </div>
     </div>
   </section>
+
+</div><!-- /.content-card -->
 
   <!-- Countdown -->
   <section class="countdown-section reveal">
@@ -1147,12 +1249,13 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   <section class="gallery reveal">
     <h2>Album Ảnh</h2>
     <div class="gallery-grid">
-      <div class="gallery-cell"><span>Ảnh 1</span></div>
-      <div class="gallery-cell"><span>Ảnh 2</span></div>
-      <div class="gallery-cell"><span>Ảnh 3</span></div>
-      <div class="gallery-cell"><span>Ảnh 4</span></div>
-      <div class="gallery-cell"><span>Ảnh 5</span></div>
-      <div class="gallery-cell"><span>Ảnh 6</span></div>
+      <div class="gallery-cell wide"><img src="MSO05966.JPG" alt="" loading="lazy" style="object-position:center 30%"></div>
+      <div class="gallery-cell"><img src="MSO06017.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06827.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell wide"><img src="MSO06480.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06602.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06881.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell wide"><img src="MSO07149.JPG" alt="" loading="lazy"></div>
     </div>
   </section>
 
@@ -1183,13 +1286,21 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   <!-- Footer -->
   <footer>
     <div class="ornament" aria-hidden="true"><i></i></div>
-    <p>Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi</p>
+    <p>Sự hiện diện của quý khách<br>là niềm vinh hạnh cho gia đình chúng tôi</p>
     <p class="footer-names">Thành Nam & Diệu Thuần</p>
     <p class="footer-tag">#NamThuan2026</p>
   </footer>
 
-</div><!-- /.content-card -->
 </main>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lb-close">&times;</button>
+  <button class="lightbox-nav prev" id="lb-prev">&#8249;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lightbox-nav next" id="lb-next">&#8250;</button>
+  <div class="lightbox-counter" id="lb-counter"></div>
+</div>
 
 <!-- Music -->
 <audio id="bg-music" src="G%E1%BA%B7p%20G%E1%BB%A1%2C%20Y%C3%AAu%20%C4%90%C6%B0%C6%A1ng%20V%C3%A0%20%C4%90%C6%B0%E1%BB%A3c%20B%C3%AAn%20Em.mp3" loop preload="auto"></audio>
@@ -1228,6 +1339,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
     setTimeout(function () {
       cover.classList.add('opened');
       invitation.classList.add('visible');
+      document.getElementById('hero-section').classList.add('visible');
       document.body.style.overflow = '';
       startPetals();
       setTimeout(function () { cover.style.display = 'none'; }, 2000);
@@ -1297,8 +1409,21 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       });
     }, { threshold: 0.12 });
     reveals.forEach(function (el) { obs.observe(el); });
+
+    var galleryCells = document.querySelectorAll('.gallery-cell');
+    var galleryObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var idx = Array.prototype.indexOf.call(galleryCells, e.target);
+          setTimeout(function () { e.target.classList.add('shown'); }, idx * 120);
+          galleryObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    galleryCells.forEach(function (el) { galleryObs.observe(el); });
   } else {
     reveals.forEach(function (el) { el.classList.add('shown'); });
+    document.querySelectorAll('.gallery-cell').forEach(function (el) { el.classList.add('shown'); });
   }
 
   /* ── Countdown ── */
@@ -1552,6 +1677,50 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       btn.disabled = false;
       btn.textContent = 'Gửi Lời Chúc';
     });
+  });
+  /* ── Lightbox ── */
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCounter = document.getElementById('lb-counter');
+  var galImgs = Array.prototype.slice.call(document.querySelectorAll('.gallery-cell img'));
+  var lbIdx = 0;
+  var touchStartX = 0;
+
+  function lbShow(i) {
+    lbIdx = i;
+    lbImg.src = galImgs[i].src;
+    lbCounter.textContent = (i + 1) + ' / ' + galImgs.length;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function lbHide() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function lbNav(dir) {
+    lbIdx = (lbIdx + dir + galImgs.length) % galImgs.length;
+    lbImg.src = galImgs[lbIdx].src;
+    lbCounter.textContent = (lbIdx + 1) + ' / ' + galImgs.length;
+  }
+
+  galImgs.forEach(function (img, i) {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', function () { lbShow(i); });
+  });
+  document.getElementById('lb-close').addEventListener('click', lbHide);
+  document.getElementById('lb-prev').addEventListener('click', function () { lbNav(-1); });
+  document.getElementById('lb-next').addEventListener('click', function () { lbNav(1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lbHide(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') lbHide();
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  });
+  lb.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
   });
 })();
 </script>
