@@ -1321,7 +1321,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
 </div>
 
 <!-- Music -->
-<audio id="bg-music" src="G%E1%BA%B7p%20G%E1%BB%A1%2C%20Y%C3%AAu%20%C4%90%C6%B0%C6%A1ng%20V%C3%A0%20%C4%90%C6%B0%E1%BB%A3c%20B%C3%AAn%20Em.mp3" loop preload="auto"></audio>
+<audio id="bg-music" src="Beautiful%20In%20White.mp3" loop preload="auto"></audio>
 <button class="music-btn" id="music-btn" aria-label="Bật/Tắt nhạc">
   <span class="music-disc"></span>
   <svg viewBox="0 0 24 24">
@@ -1361,6 +1361,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       document.body.style.overflow = '';
       startPetals();
       setTimeout(function () { cover.style.display = 'none'; }, 2000);
+      bgMusic.currentTime = 12;
       bgMusic.play().then(function () {
         musicBtn.classList.add('playing', 'active');
       }).catch(function () {
