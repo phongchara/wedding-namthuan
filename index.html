@@ -1361,12 +1361,20 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       document.body.style.overflow = '';
       startPetals();
       setTimeout(function () { cover.style.display = 'none'; }, 2000);
-      bgMusic.currentTime = 12;
-      bgMusic.play().then(function () {
-        musicBtn.classList.add('playing', 'active');
-      }).catch(function () {
-        musicBtn.classList.add('active');
-      });
+      function playFrom12() {
+        bgMusic.currentTime = 12;
+        bgMusic.play().then(function () {
+          musicBtn.classList.add('playing', 'active');
+        }).catch(function () {
+          musicBtn.classList.add('active');
+        });
+      }
+      if (bgMusic.readyState >= 1) {
+        playFrom12();
+      } else {
+        bgMusic.addEventListener('loadedmetadata', playFrom12, { once: true });
+        bgMusic.load();
+      }
       setTimeout(startAutoScroll, 4500);
       fetchWishes(true);
     }, 1600);
