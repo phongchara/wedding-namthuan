@@ -25,10 +25,7 @@
 }
 
 body {
-  background-color: var(--bg);
-  background-image: url('Capture.PNG');
-  background-size: 420px auto;
-  background-repeat: repeat;
+  background-color: #FFFDF8;
   color: var(--text);
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 18px;
@@ -36,6 +33,15 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+}
+.page-wrapper {
+  max-width: 480px;
+  margin-inline: auto;
+  background-color: var(--bg);
+  background-image: url('Capture.PNG');
+  background-size: 420px auto;
+  background-repeat: repeat;
+  min-height: 100vh;
 }
 
 /* ───── Cover ───── */
@@ -684,11 +690,13 @@ section {
   grid-column: 1 / -1;
 }
 .gallery-cell.wide img {
-  max-height: 300px;
+  max-height: 420px;
+  object-position: center 65%;
 }
 .gallery-cell:not(.wide) img {
-  aspect-ratio: 3/4;
-  max-height: 260px;
+  aspect-ratio: 2/3;
+  max-height: 340px;
+  object-position: center 60%;
 }
 
 /* ───── Lightbox ───── */
@@ -1162,6 +1170,8 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
 <!-- ═══════ Petals container ═══════ -->
 <div id="petals" aria-hidden="true"></div>
 
+<div class="page-wrapper">
+
 <!-- Hero -->
 <section class="hero" id="hero-section">
   <img class="hero-img" src="MSO06076.JPG" alt="Thành Nam & Diệu Thuần">
@@ -1249,13 +1259,12 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   <section class="gallery reveal">
     <h2>Album Ảnh</h2>
     <div class="gallery-grid">
-      <div class="gallery-cell wide"><img src="MSO05966.JPG" alt="" loading="lazy" style="object-position:center 30%"></div>
-      <div class="gallery-cell"><img src="MSO06017.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell wide"><img src="MSO06252.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06102.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06162.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell wide"><img src="MSO06477.JPG" alt="" loading="lazy"></div>
+      <div class="gallery-cell"><img src="MSO06480.JPG" alt="" loading="lazy"></div>
       <div class="gallery-cell"><img src="MSO06827.JPG" alt="" loading="lazy"></div>
-      <div class="gallery-cell wide"><img src="MSO06480.JPG" alt="" loading="lazy"></div>
-      <div class="gallery-cell"><img src="MSO06602.JPG" alt="" loading="lazy"></div>
-      <div class="gallery-cell"><img src="MSO06881.JPG" alt="" loading="lazy"></div>
-      <div class="gallery-cell wide"><img src="MSO07149.JPG" alt="" loading="lazy"></div>
     </div>
   </section>
 
@@ -1292,6 +1301,8 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   </footer>
 
 </main>
+
+</div><!-- /.page-wrapper -->
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
