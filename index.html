@@ -127,14 +127,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Great Vibes', cursive;
-  font-size: 48px;
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  font-size: 56px;
+  font-weight: 700;
   color: var(--gold);
-  opacity: .3;
+  opacity: .5;
   pointer-events: none;
-}
-.tri-right .tri-decor {
-  opacity: 0;
 }
 
 /* Trifold open animation */
@@ -1166,9 +1164,9 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       </h1>
       <p class="cover-date">18 . 10 . 2026</p>
     </div>
-    <div class="tri-left"><div class="tri-decor">❧</div></div>
+    <div class="tri-left"><div class="tri-decor">囍</div></div>
     <div class="tri-right">
-      <div class="tri-decor">❧</div>
+      <div class="tri-decor">囍</div>
       <button class="tri-open-btn" id="open-btn">Mở<br>Thiệp</button>
     </div>
   </div>
@@ -1300,7 +1298,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   </section>
 
   <!-- Footer -->
-  <footer>
+  <footer class="reveal">
     <div class="ornament" aria-hidden="true"><i></i></div>
     <p>Sự hiện diện của quý khách<br>là niềm vinh hạnh cho gia đình chúng tôi</p>
     <p class="footer-names">Thành Nam & Diệu Thuần</p>
@@ -1431,7 +1429,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
           obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.05 });
     reveals.forEach(function (el) { obs.observe(el); });
 
     var galleryCells = document.querySelectorAll('.gallery-cell');
