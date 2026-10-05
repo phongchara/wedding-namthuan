@@ -1276,17 +1276,17 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   <div class="ornament" aria-hidden="true"><i></i></div>
 
   <!-- Wishes -->
-  <section class="wishes reveal">
-    <h2>Sổ Lưu Bút</h2>
-    <p>Hãy để lại lời chúc tốt đẹp cho chúng tôi nhé</p>
-    <form id="wish-form">
+  <section class="wishes">
+    <h2 class="reveal">Sổ Lưu Bút</h2>
+    <p class="reveal">Hãy để lại lời chúc tốt đẹp cho chúng tôi nhé</p>
+    <form id="wish-form" class="reveal">
       <input type="text" id="w-name" placeholder="Tên của bạn" required maxlength="60">
       <textarea id="w-msg" placeholder="Lời chúc của bạn..." required maxlength="500"></textarea>
       <input type="text" id="w-hp" class="wish-hp" tabindex="-1" autocomplete="off">
       <button type="submit" id="wish-btn">Gửi Lời Chúc</button>
     </form>
     <div id="wish-status" class="wish-status"></div>
-    <button class="wish-toggle" id="wish-toggle">Xem lời chúc từ mọi người <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="wish-toggle reveal" id="wish-toggle">Xem lời chúc từ mọi người <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
     <div class="wish-slider-wrap" id="wish-slider-wrap">
       <div class="wish-carousel" id="wish-carousel"></div>
       <div class="wish-nav" id="wish-nav" style="display:none">
@@ -1298,11 +1298,11 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   </section>
 
   <!-- Footer -->
-  <footer class="reveal">
-    <div class="ornament" aria-hidden="true"><i></i></div>
-    <p>Sự hiện diện của quý khách<br>là niềm vinh hạnh cho gia đình chúng tôi</p>
-    <p class="footer-names">Thành Nam & Diệu Thuần</p>
-    <p class="footer-tag">#NamThuan2026</p>
+  <footer>
+    <div class="ornament reveal" aria-hidden="true"><i></i></div>
+    <p class="reveal">Sự hiện diện của quý khách<br>là niềm vinh hạnh cho gia đình chúng tôi</p>
+    <p class="footer-names reveal">Thành Nam & Diệu Thuần</p>
+    <p class="footer-tag reveal">#NamThuan2026</p>
   </footer>
 
 </main>
@@ -1429,7 +1429,7 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
           obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.05 });
+    }, { threshold: 0, rootMargin: '0px 0px 100px 0px' });
     reveals.forEach(function (el) { obs.observe(el); });
 
     var galleryCells = document.querySelectorAll('.gallery-cell');
@@ -1443,6 +1443,28 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
       });
     }, { threshold: 0.1 });
     galleryCells.forEach(function (el) { galleryObs.observe(el); });
+
+    window.addEventListener('scroll', function checkReveals() {
+      var vh = window.innerHeight;
+      reveals.forEach(function (el) {
+        if (!el.classList.contains('shown')) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < vh - 50) {
+            el.classList.add('shown');
+            obs.unobserve(el);
+          }
+        }
+      });
+      galleryCells.forEach(function (el) {
+        if (!el.classList.contains('shown')) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < vh - 50) {
+            el.classList.add('shown');
+            galleryObs.unobserve(el);
+          }
+        }
+      });
+    }, { passive: true });
   } else {
     reveals.forEach(function (el) { el.classList.add('shown'); });
     document.querySelectorAll('.gallery-cell').forEach(function (el) { el.classList.add('shown'); });
