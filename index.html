@@ -1593,11 +1593,9 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
     wishes.forEach(function (w, i) {
       var slide = document.createElement('div');
       slide.className = 'wish-slide' + (i === 0 ? ' active' : '');
-      var words = w.message.split(/\s+/);
-      var preview = words.length > 4 ? words.slice(0, 4).join(' ') + '...' : w.message;
       slide.innerHTML =
         '<p class="ws-name">' + escHtml(w.name) + '</p>' +
-        '<p class="ws-msg">' + escHtml(preview) + '</p>' +
+        '<p class="ws-msg">' + escHtml(w.message) + '</p>' +
         '<p class="ws-time">' + escHtml(w.time) + '</p>';
       carousel.appendChild(slide);
       wishSlides.push(slide);
