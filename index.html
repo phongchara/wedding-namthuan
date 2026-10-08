@@ -1023,6 +1023,109 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   margin-top: .5rem !important;
 }
 
+/* ───── Gift ───── */
+.gift-btn {
+  background: transparent;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background .3s, color .3s;
+  letter-spacing: 0.5px;
+}
+.gift-btn:hover {
+  background: var(--gold);
+  color: #fff;
+}
+.gift-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.gift-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+.gift-modal-content {
+  background: #fff;
+  max-width: 340px;
+  width: 88%;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+}
+.gift-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+.gift-modal-content h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: var(--gold);
+  margin: 0 0 1rem;
+}
+.gift-qr {
+  width: 240px;
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+.gift-bank {
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+.gift-acc {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0 0 4px;
+  letter-spacing: 1px;
+}
+.gift-name {
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  font-size: 14px;
+}
+.gift-copy {
+  background: transparent;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.gift-copy:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
 /* ───── Music button ───── */
 .music-btn {
   position: fixed;
@@ -1300,6 +1403,11 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
     </div>
   </section>
 
+  <!-- Gift -->
+  <div style="text-align:center; padding: 1.5rem 0;">
+    <button class="gift-btn reveal" id="gift-btn">Bạn ở xa? Gửi quà cho cô dâu chú rể</button>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="ornament reveal" aria-hidden="true"><i></i></div>
@@ -1319,6 +1427,19 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   <img id="lb-img" src="" alt="">
   <button class="lightbox-nav next" id="lb-next">&#8250;</button>
   <div class="lightbox-counter" id="lb-counter"></div>
+</div>
+
+<!-- Gift Modal -->
+<div class="gift-modal" id="gift-modal">
+  <div class="gift-modal-content">
+    <button class="gift-modal-close" id="gift-close">&times;</button>
+    <h3>Mừng Cưới</h3>
+    <img class="gift-qr" src="https://img.vietqr.io/image/VCB-1020373291-compact.jpg?addInfo=Mung%20cuoi%20Nam%20Thuan&accountName=NGUYEN%20THANH%20NAM" alt="QR chuyển khoản">
+    <p class="gift-bank">Vietcombank</p>
+    <p class="gift-acc">1020373291</p>
+    <p class="gift-name">NGUYEN THANH NAM</p>
+    <button class="gift-copy" id="gift-copy">Sao chép số tài khoản</button>
+  </div>
 </div>
 
 <!-- Music -->
@@ -1766,6 +1887,26 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
   lb.addEventListener('touchend', function (e) {
     var dx = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
+  });
+  /* ── Gift modal ── */
+  var giftModal = document.getElementById('gift-modal');
+  var giftMsg = guest ? guest + ' mung cuoi Nam Thuan' : 'Mung cuoi Nam Thuan';
+  document.querySelector('.gift-qr').src = 'https://img.vietqr.io/image/VCB-1020373291-compact.jpg?addInfo=' + encodeURIComponent(giftMsg) + '&accountName=NGUYEN%20THANH%20NAM';
+  document.getElementById('gift-btn').addEventListener('click', function () {
+    giftModal.classList.add('active');
+  });
+  document.getElementById('gift-close').addEventListener('click', function () {
+    giftModal.classList.remove('active');
+  });
+  giftModal.addEventListener('click', function (e) {
+    if (e.target === giftModal) giftModal.classList.remove('active');
+  });
+  document.getElementById('gift-copy').addEventListener('click', function () {
+    var btn = this;
+    navigator.clipboard.writeText('1020373291').then(function () {
+      btn.textContent = 'Đã sao chép ✓';
+      setTimeout(function () { btn.textContent = 'Sao chép số tài khoản'; }, 2000);
+    });
   });
 })();
 </script>
