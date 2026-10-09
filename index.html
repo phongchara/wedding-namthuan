@@ -554,6 +554,80 @@ section {
   height: 14px;
   fill: var(--gold);
 }
+.event-timeline {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--divider);
+  text-align: center;
+}
+.event-timeline-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 1.2rem;
+}
+.event-tl-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.event-tl-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.event-tl-track::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 2.5px;
+  background: var(--gold);
+  opacity: .5;
+  transform: translateX(-50%);
+}
+.event-tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+}
+.event-tl-item .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid var(--gold);
+  background: #fff;
+  justify-self: center;
+  z-index: 1;
+}
+.event-tl-time {
+  text-align: right;
+  grid-column: 1;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  padding-right: 12px;
+}
+.event-tl-item .dot { grid-column: 2; }
+.event-tl-label {
+  text-align: left;
+  grid-column: 3;
+  padding-left: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
 
 /* ───── Countdown ───── */
 .countdown-section {
@@ -1347,6 +1421,21 @@ footer p { margin: 0; color: var(--text-muted); font-size: 16px; }
         <p class="formal-event-venue">Trung tâm tiệc cưới và sự kiện Pandora</p>
         <p class="formal-event-address">Tầng 7, số 12, đường Võ Nguyên Giáp, An Biên, Hải Phòng</p>
         <a class="formal-event-map" href="https://www.google.com/maps/search/Trung+tâm+tiệc+cưới+Pandora+Võ+Nguyên+Giáp+Hải+Phòng" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg> Chỉ đường</a>
+        <div class="event-timeline">
+          <p class="event-timeline-title">Chương trình buổi tiệc</p>
+          <div class="event-tl-track">
+            <div class="event-tl-item">
+              <span class="event-tl-time">17h30'</span>
+              <span class="dot"></span>
+              <span class="event-tl-label">Đón khách</span>
+            </div>
+            <div class="event-tl-item">
+              <span class="event-tl-time">18h30'</span>
+              <span class="dot"></span>
+              <span class="event-tl-label">Khai tiệc</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
